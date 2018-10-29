@@ -14,17 +14,25 @@ int main() {
   cout << "Enter the age of the letter recipient\n";
   int age;
   cin >> age;
-  if(age < 0 | age > 100){
+  if(age < 0 || age > 100){
     simple_error("You're kidding");
   }
 
   //Write-out a letter
   cout << "Dear " << first_name << ",\n"
   << "\tHow are you? I am fine. I miss you. "
-  << "Have you seen " << friend_name << " lately?"
-  << "If you see " << friend_name << "please ask "
+  << "Have you seen " << friend_name << " lately? "
+  << "If you see " << friend_name << " please ask "
   << (friend_sex == 'm' ? "him ": "her ")
-  << "to call me.\n"
-  << "I hear you just had a birthday and you are " << age << " years old.";
+  << "to call me. "
+  << "I hear you just had a birthday and you are " << age << " years old. ";
+  if (age < 12) {
+    cout << "Next year you will be " << (age + 1) << ".";
+  } else if (age == 17) {
+    cout << "Next year you will be able to vote.";
+  } else if (age > 70) {
+    cout << "I hope you are enjoying retirement.";
+  }
+  cout << "\nYours sincerely, \n\n\n" << "Ben Don";
   return 0;
 }
