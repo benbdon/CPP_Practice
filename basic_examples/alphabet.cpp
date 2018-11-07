@@ -5,5 +5,7 @@
 int main() {
   for (char letter = 'a'; letter != 'z' + 1; ++letter) {
     cout << letter << '\t' << int(letter) << '\n';
+    //printf("%c\t\t%d\n", letter, letter);
   }
+  return 0;
 }
