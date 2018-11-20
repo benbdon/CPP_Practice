@@ -1,15 +1,77 @@
 #include "std_lib_facilities.h" 
-// try #6 seems to work
+// try #7 building out most of the pieces
 
 class Token {     // a very simple user-defined type
 public:
     char kind;
-    double value; 
+    double value;
+    Token(char ch)    // make a Token from a char
+        :kind(ch), value(0) { }    
+    Token(char ch, double val)     // make a Token from a char and a double
+        :kind(ch), value(val) { }
 };
-
+//---
 Token get_token() { // read characters and compose tokens 
+    char ch;
+    cin >> ch;    // note that >> skips whitespace (space, newline, tab, etc.)
 
+    switch (ch) {
+ //not yet   case ';':    // for "print"
+ //not yet   case 'q':    // for "quit"
+    case '(': case ')': case '+': case '-': case '*': case '/': 
+        return Token(ch);        // let each character represent itself
+    case '.':
+    case '0': case '1': case '2': case '3': case '4':
+    case '5': case '6': case '7': case '8': case '9':
+        {    
+            cin.putback(ch);         // put digit back into the input stream
+            double val;
+            cin >> val;              // read a floating-point number
+            return Token('8',val);   // let '8' represent "a number"
+        }
+    default:
+        error("Bad token");
+    }
 } 
+//---
+double expression();
+//---
+double term();
+//---
+double primary(){ // deal with numbers and parentheses
+    Token t = get_token();
+    switch (t.kind) {
+    case '(':    // handle '(' expression ')'
+        {    
+            double d = expression();
+            t = get_token();
+            if (t.kind != ')') error("')' expected");
+            return d;
+        }
+    case '8':            // we use '8' to represent a number
+        return t.value;  // return the number's value
+    default:
+        error("primary expected");
+    }
+}
+//---
+int main()
+try {
+    while(cin)
+        cout << expression() << endl;
+    keep_window_open();
+}
+catch (exception& e) {
+    cerr << e.what() << endl;
+    keep_window_open();
+    return 1;
+}
+catch (...) {
+    cerr << "exception \n";
+    keep_window_open();
+    return 2;
+}
+//----
 double expression() { // deal with + and – 
     double left = term(); // read and evaluate an Expression
     Token t = get_token(); // get the next token
@@ -49,10 +111,4 @@ double term(){ // deal with *, /, and %
             return left;
         }
     }
-}
-double primary(){ // deal with numbers and parentheses
-
-} 
-
-int main() {
 }
