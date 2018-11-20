@@ -158,17 +158,25 @@ double expression() { // deal with + and –
 //---
 int main()
 try {
-    while(cin)
-        cout << "=" << expression() << endl;
-    keep_window_open();
+        double val = 0;
+        while (cin) {
+        Token t = ts.get();
+
+        if (t.kind == 'q') break; // 'q' for quit
+        if (t.kind == ';')        // ';' for "print now"
+            cout << "=" << val << '\n';
+        else
+            ts.putback(t);
+        val = expression();
+    }
 }
 catch (exception& e) {
-    cerr << e.what() << endl;
+    cerr << "error: " << e.what() << endl;
     keep_window_open();
     return 1;
 }
 catch (...) {
-    cerr << "exception \n";
+    cerr << "Oops: unknown exception!\n";
     keep_window_open();
     return 2;
 }
