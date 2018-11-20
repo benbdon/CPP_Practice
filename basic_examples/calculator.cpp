@@ -40,7 +40,7 @@ double term(){ // deal with *, /, and %
             break;
         case '/':
         {   double d = primary();
-                if (d == 0) error("divid by zero");
+                if (d == 0) error("divide by zero");
                 left /= d;
                 t = get_token();
                 break;
