@@ -1,5 +1,5 @@
 #include "std_lib_facilities.h" 
-// try #5 seems to work, but doesn't handle the divide by zero case gracefully
+// try #6 seems to work
 
 class Token {     // a very simple user-defined type
 public:
@@ -39,9 +39,12 @@ double term(){ // deal with *, /, and %
             t = get_token();
             break;
         case '/':
-            left /= primary();
-            t = get_token();
-            break;
+        {   double d = primary();
+                if (d == 0) error("divid by zero");
+                left /= d;
+                t = get_token();
+                break;
+        }   
         default:
             return left;
         }
