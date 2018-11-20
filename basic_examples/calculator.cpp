@@ -1,23 +1,69 @@
+
+//
+// This is example code from Chapter 6.7 "Trying the second version" of
+// "Programming -- Principles and Practice Using C++" by Bjarne Stroustrup
+//
+
 #include "std_lib_facilities.h" 
-// try #8 added "=" to result to improve debugging
+
+//---
 
 class Token {     // a very simple user-defined type
 public:
-    char kind;
-    double value;
+    char kind;  //what kind of token
+    double value; // for numbers: a value
     Token(char ch)    // make a Token from a char
         :kind(ch), value(0) { }    
     Token(char ch, double val)     // make a Token from a char and a double
         :kind(ch), value(val) { }
 };
+
 //---
-Token get_token() { // read characters and compose tokens 
+
+class Token_stream {
+public:
+    Token_stream();     // make a Token stream that reads from cin
+    Token get();        // get a Token
+    void putback(Token t);     // put a Token back
+private:
+    bool full;      // is there a Token in the buffer?
+    Token buffer;       // here is where we keep a Token put back using putback()
+};
+
+//---
+
+// The constructor just sets full to indicate that the buffer is empty:
+Token_stream::Token_stream()
+:full(false), buffer(0)    // no Token in buffer
+{
+}
+
+//---
+
+// The putback() member function puts its argument back into the Token_stream's buffer:
+void Token_stream::putback(Token t)
+{
+    if (full) error("putback() into a full buffer");
+    buffer = t;       // copy t to buffer
+    full = true;      // buffer is now full
+}
+
+//---
+
+Token Token_stream::get()
+{
+    if (full) {       // do we already have a Token ready?
+        // remove token from buffer
+        full=false;
+        return buffer;
+    } 
+
     char ch;
     cin >> ch;    // note that >> skips whitespace (space, newline, tab, etc.)
 
     switch (ch) {
- //not yet   case ';':    // for "print"
- //not yet   case 'q':    // for "quit"
+    case ';':    // for "print"
+    case 'q':    // for "quit"
     case '(': case ')': case '+': case '-': case '*': case '/': 
         return Token(ch);        // let each character represent itself
     case '.':
@@ -32,19 +78,25 @@ Token get_token() { // read characters and compose tokens
     default:
         error("Bad token");
     }
-} 
+}
 //---
-double expression();
+
+Token_stream ts; // provides get() and putback()
+
 //---
-double term();
+
+double expression(); // declaration so that primary() can call expression()
+
 //---
-double primary(){ // deal with numbers and parentheses
-    Token t = get_token();
+
+// deal with numbers and parentheses
+double primary(){ 
+    Token t = ts.get();
     switch (t.kind) {
     case '(':    // handle '(' expression ')'
         {    
             double d = expression();
-            t = get_token();
+            t = ts.get();
             if (t.kind != ')') error("')' expected");
             return d;
         }
@@ -54,6 +106,55 @@ double primary(){ // deal with numbers and parentheses
         error("primary expected");
     }
 }
+//---
+
+// deal with *, /, and %
+double term(){  
+    double left = primary();
+    Token t = ts.get(); // get the next Token from the Token stream
+    while (true) {
+        switch (t.kind) {
+        case '*':
+            left *= primary();
+            t = ts.get();
+            break;
+        case '/':
+        {   double d = primary();
+                if (d == 0) error("divide by zero");
+                left /= d;
+                t = ts.get();
+                break;
+        }   
+        default:
+        ts.putback(t); // put t back into the Token stream
+            return left;
+        }
+    }
+}
+
+//---
+
+double expression() { // deal with + and – 
+    double left = term(); // read and evaluate an Expression
+    Token t = ts.get(); // get the next Token from the Token stream
+
+    while(true) { 
+        switch(t.kind) {
+            case '+':
+                left += term(); // evaluate Term and add
+                t = ts.get();
+                break;
+            case '-':
+                left -= term(); // evaluate Term and subtract
+                t = ts.get();
+                break;
+            default:
+                ts.putback(t);
+                return left;
+        }
+    }
+}
+
 //---
 int main()
 try {
@@ -70,45 +171,4 @@ catch (...) {
     cerr << "exception \n";
     keep_window_open();
     return 2;
-}
-//----
-double expression() { // deal with + and – 
-    double left = term(); // read and evaluate an Expression
-    Token t = get_token(); // get the next token
-    while(true) { 
-        switch(t.kind) {
-            case '+':
-                left += term(); // evaluate Term and add
-                t = get_token();
-                break;
-            case '-':
-                left -= term(); // evaluate Term and subtract
-                t = get_token();
-                break;
-            default:
-                return left;
-        }
-        return left;   // finally: no more + or -; return the answer
-    }
-}
-double term(){ // deal with *, /, and % 
-    double left = primary();
-    Token t = get_token();
-    while (true) {
-        switch (t.kind) {
-        case '*':
-            left *= primary();
-            t = get_token();
-            break;
-        case '/':
-        {   double d = primary();
-                if (d == 0) error("divide by zero");
-                left /= d;
-                t = get_token();
-                break;
-        }   
-        default:
-            return left;
-        }
-    }
 }
