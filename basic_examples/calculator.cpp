@@ -1,9 +1,3 @@
-
-//
-// This is example code from Chapter 6.7 "Trying the second version" of
-// "Programming -- Principles and Practice Using C++" by Bjarne Stroustrup
-//
-
 #include "std_lib_facilities.h" 
 
 //---
@@ -22,21 +16,12 @@ public:
 
 class Token_stream {
 public:
-    Token_stream();     // make a Token stream that reads from cin
     Token get();        // get a Token
-    void putback(Token t);     // put a Token back
+    void putback(Token t); // put a Token back
 private:
-    bool full;      // is there a Token in the buffer?
+    bool full {false};      // is there a Token in the buffer?
     Token buffer;       // here is where we keep a Token put back using putback()
 };
-
-//---
-
-// The constructor just sets full to indicate that the buffer is empty:
-Token_stream::Token_stream()
-:full(false), buffer(0)    // no Token in buffer
-{
-}
 
 //---
 
@@ -53,14 +38,11 @@ void Token_stream::putback(Token t)
 Token Token_stream::get()
 {
     if (full) {       // do we already have a Token ready?
-        // remove token from buffer
-        full=false;
+        full = false; // remove token from buffer
         return buffer;
     } 
-
     char ch;
     cin >> ch;    // note that >> skips whitespace (space, newline, tab, etc.)
-
     switch (ch) {
     case ';':    // for "print"
     case 'q':    // for "quit"
@@ -69,12 +51,11 @@ Token Token_stream::get()
     case '.':
     case '0': case '1': case '2': case '3': case '4':
     case '5': case '6': case '7': case '8': case '9':
-        {    
-            cin.putback(ch);         // put digit back into the input stream
-            double val;
-            cin >> val;              // read a floating-point number
-            return Token('8',val);   // let '8' represent "a number"
-        }
+    {   cin.putback(ch);         // put digit back into the input stream
+        double val;
+        cin >> val;              // read a floating-point number
+        return Token('8',val);   // let '8' represent "a number"
+    }
     default:
         error("Bad token");
     }
@@ -94,8 +75,7 @@ double primary(){
     Token t = ts.get();
     switch (t.kind) {
     case '(':    // handle '(' expression ')'
-        {    
-            double d = expression();
+        {   double d = expression();
             t = ts.get();
             if (t.kind != ')') error("')' expected");
             return d;
