@@ -1,5 +1,5 @@
 #include "std_lib_facilities.h" 
-// try #7 building out most of the pieces
+// try #8 added "=" to result to improve debugging
 
 class Token {     // a very simple user-defined type
 public:
@@ -58,7 +58,7 @@ double primary(){ // deal with numbers and parentheses
 int main()
 try {
     while(cin)
-        cout << expression() << endl;
+        cout << "=" << expression() << endl;
     keep_window_open();
 }
 catch (exception& e) {
