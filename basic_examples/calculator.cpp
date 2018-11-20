@@ -1,4 +1,5 @@
 #include "std_lib_facilities.h" 
+// try #2 doesn't work yet because 1-2-3 is parsed as 1-(2-3)
 
 class Token {     // a very simple user-defined type
 public:
@@ -6,22 +7,30 @@ public:
     double value; 
 };
 
+Token get_token() { // read characters and compose tokens 
 
-int main() {
-    Token t1 {'+'};
-    Token t2 {'8',11.5};
+} 
+double expression() { // deal with + and – 
+    double left = term(); // read and evaluate an Expression
+    Token t = get_token(); // get the next token
+    switch(t.kind) { // see which kind of token it is
+        case '+':
+            return left + expression(); //read and evaluate a Term,
+                                    // then do an add
+        case '-':
+            return left - expression(); // read and evaluate a Term,
+                                    // then do a subtraction
+        default:
+            return left;
+        }   
+    }
 }
+double term(){ // deal with *, /, and % 
 
-Token get_token(); // function to read a token from cin 
-vector<Token> tok; // we’ll put the tokens here 
+}
+double primary(){ // deal with numbers and parentheses
+
+} 
+
 int main() {
-    while (cin) {
-        Token t = get_token();
-        tok.push_back(t);
-    } 
-    for (int i = 0; i < tok.size(); ++i) {
-        if (tok[i].kind == '*') { // we found a multiply! 
-            double d = tok[i - 1].value * tok[i + 1].value; 
-    // now what? 
-    } 
 }
