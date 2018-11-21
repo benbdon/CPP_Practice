@@ -150,15 +150,16 @@ try {
         double val = 0;
         cout << "Welcome to our simple calculator.\nPlease enter expressions using floating-point numbers.\n";
         while (cin) {
-        Token t = ts.get();
+            cout << "> ";
+            Token t = ts.get();
 
-        if (t.kind == 'x') break; // 'q' for quit
-        if (t.kind == '=')        // ';' for "print now"
-            cout << "=" << val << '\n';
-        else
-            ts.putback(t);
-        val = expression();
-    }
+            if (t.kind == 'x') break; // 'q' for quit
+            if (t.kind == '=')        // ';' for "print now"
+                cout << "=" << val << '\n';
+            else
+                ts.putback(t);
+            val = expression();
+        }
 }
 catch (exception& e) {
     cerr << "error: " << e.what() << endl;
