@@ -8,6 +8,7 @@
 	This file is known as calculator02buggy.cpp
 
 	I have inserted 5 errors that should cause this not to compile
+    III
 	I have inserted 3 logic errors that should cause the program to give wrong results
 
 	First try to find an remove the bugs without looking in the book.
@@ -17,11 +18,11 @@
 
 */
 
-#include "../std_lib_facilities.h"
+#include "std_lib_facilities.h"
 
 //------------------------------------------------------------------------------
 
-lass Token {
+class Token {
 public:
     char kind;        // what kind of token
     double value;     // for numbers: a value 
@@ -39,7 +40,7 @@ public:
     Token get();      // get a Token (get() is defined elsewhere)
     void putback(Token t);    // put a Token back
 private:
-    bool full;        // is there a Token in the buffer?
+    bool full {false};        // is there a Token in the buffer?
     Token buffer;     // here is where we keep a Token put back using putback()
 };
 
@@ -63,7 +64,7 @@ void Token_stream::putback(Token t)
 
 //------------------------------------------------------------------------------
 
-Token get()
+Token Token_stream::get()
 {
     if (full) {       // do we already have a Token ready?
         // remove token from buffer
@@ -112,7 +113,7 @@ double primary()
         {    
             double d = expression();
             t = ts.get();
-            if (t.kind != ')') error("')' expected);
+            if (t.kind != ')') error("')' expected");
             return d;
         }
     case '8':            // we use '8' to represent a number
@@ -155,7 +156,7 @@ double term()
 // deal with + and -
 double expression()
 {
-    double left = term(;      // read and evaluate a Term
+    double left = term();      // read and evaluate a Term
     Token t = ts.get();        // get the next token from token stream
 
     while(true) {    
@@ -180,6 +181,7 @@ double expression()
 int main()
 try
 {
+    double val =0;
     while (cin) {
         Token t = ts.get();
 
