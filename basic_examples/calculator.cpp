@@ -124,7 +124,7 @@ double term(){
 //---
 
 double expression() { // deal with + and – 
-    double left = term(); // read and evaluate an Expression
+    double left = term(); // read and evaluate an Term
     Token t = ts.get(); // get the next Token from the Token stream
 
     while(true) { 
