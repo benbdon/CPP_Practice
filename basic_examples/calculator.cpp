@@ -129,17 +129,17 @@ double expression() { // deal with + and –
 
     while(true) { 
         switch(t.kind) {
-            case '+':
-                left += term(); // evaluate Term and add
-                t = ts.get();
-                break;
-            case '-':
-                left -= term(); // evaluate Term and subtract
-                t = ts.get();
-                break;
-            default:
-                ts.putback(t);
-                return left;
+        case '+':
+            left += term(); // evaluate Term and add
+            t = ts.get();
+            break;
+        case '-':
+            left -= term(); // evaluate Term and subtract
+            t = ts.get();
+            break;
+        default:
+            ts.putback(t);
+            return left;
         }
     }
 }
