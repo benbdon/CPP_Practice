@@ -155,15 +155,17 @@ try {
 
             if (t.kind == 'x') break; // 'q' for quit
             if (t.kind == '=')        // ';' for "print now"
-                cout << "=" << val << '\n';
+                cout << "= " << val << '\n';
             else
                 ts.putback(t);
             val = expression();
         }
 }
-catch (exception& e) {
-    cerr << "error: " << e.what() << endl;
-    keep_window_open();
+catch (runtime_error& e) {
+    cerr << e.what() << '\n'; // keep_window_open(): 
+    cout << "Please enter the character ~ to close the window\n";
+    for (char ch; cin >> ch; ) // keep reading until we find a ~ 
+        if (ch =='~') return 1; 
     return 1;
 }
 catch (...) {
