@@ -125,8 +125,7 @@ double term(){
             left = fmod(left, d);
             t = ts.get(); 
             break;
-        }  
-        default:
+        } default:
             ts.putback(t); // put t back into the Token stream
             return left;
         }
