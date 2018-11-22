@@ -2,6 +2,14 @@
 
 //---
 
+const char number = '8';    // t.kind==number means that t is a number Token
+const char quit = 'x'; // t.kind == quit means that t is a quit Token 
+const char print = '='; // t.kind == print means that t is a print Token
+const string prompt = "> "; 
+const string result = "= "; // used to indicate that what follows is a result
+
+//---
+
 class Token {     // a very simple user-defined type
 public:
     char kind;  //what kind of token
@@ -55,8 +63,8 @@ Token Token_stream::get()
     cin >> ch;    // note that >> skips whitespace (space, newline, tab, etc.)
     
     switch (ch) {
-        case '=':    // for "print"
-        case 'x':    // for "quit"
+        case print:    // for "print"
+        case quit:    // for "quit"
         case '(': case ')': case '+': case '-': case '*': case '/': case '%':
             return Token(ch);        // let each character represent itself
         case '.':
@@ -65,7 +73,7 @@ Token Token_stream::get()
             cin.putback(ch);         // put digit back into the input stream
             double val;
             cin >> val;              // read a floating-point number
-            return Token('8',val);   // let '8' represent "a number"
+            return Token(number,val);   // let '8' represent "a number"
         } default:
             error("Bad token");
     }
@@ -91,7 +99,7 @@ double primary(){
             if (t.kind != ')') error("')' expected");
             return d;
         }
-    case '8':            // we use '8' to represent a number
+    case number:            
         return t.value;  // return the number's value
     case '-': 
         return - primary(); 
@@ -160,15 +168,15 @@ int main()
 try {
     cout << "Welcome to our simple calculator.\nPlease enter expressions using floating-point numbers.\n";
     while (cin) {
-        cout << "> ";
+        cout << prompt;
         Token t = ts.get();
-        while (t.kind == '=') t = ts.get(); // eat '='
-        if (t.kind == 'x') {
+        while (t.kind == print) t = ts.get(); // eat '='
+        if (t.kind == quit) {
             keep_window_open();
             return 0;
         }
         ts.putback(t);
-        cout << "= " << expression() << '\n';
+        cout << result << expression() << '\n';
     }
     keep_window_open();
     return 0;
