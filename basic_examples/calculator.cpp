@@ -169,7 +169,7 @@ void calculate() {
     while (cin) {
         cout << prompt;
         Token t = ts.get();
-        while (t.kind == print) t = ts.get(); // eat '='
+        while (t.kind == print) t = ts.get(); // first discard all "prints"
         if (t.kind == quit) return;
         ts.putback(t);
         cout << result << expression() << '\n';
