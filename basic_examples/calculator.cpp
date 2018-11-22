@@ -50,8 +50,10 @@ Token Token_stream::get()
         full = false; // remove token from buffer
         return buffer;
     } 
+    
     char ch;
     cin >> ch;    // note that >> skips whitespace (space, newline, tab, etc.)
+    
     switch (ch) {
     case '=':    // for "print"
     case 'x':    // for "quit"
@@ -107,15 +109,15 @@ double term(){
             left *= primary();
             t = ts.get();
             break;
-        case '/':
-        {   double d = primary();
-                if (d == 0) error("divide by zero");
-                left /= d;
-                t = ts.get();
-                break;
+        case '/': {
+            double d = primary();
+            if (d == 0) error("divide by zero");
+            left /= d;
+            t = ts.get();
+            break;
         }   
         default:
-        ts.putback(t); // put t back into the Token stream
+            ts.putback(t); // put t back into the Token stream
             return left;
         }
     }
@@ -147,27 +149,28 @@ double expression() { // deal with + and –
 //---
 int main()
 try {
-        double val = 0;
-        cout << "Welcome to our simple calculator.\nPlease enter expressions using floating-point numbers.\n";
-        while (cin) {
-            cout << "> ";
-            Token t = ts.get();
-
-            if (t.kind == 'x') break; // 'q' for quit
-            if (t.kind == '=')        // ';' for "print now"
-                cout << "= " << val << '\n';
-            else
-                ts.putback(t);
-            val = expression();
+    cout << "Welcome to our simple calculator.\nPlease enter expressions using floating-point numbers.\n";
+    while (cin) {
+        cout << "> ";
+        Token t = ts.get();
+        while (t.kind == '=') t = ts.get(); // eat '='
+        if (t.kind == 'x') {
+            keep_window_open();
+            return 0;
         }
+        ts.putback(t);
+        cout << "= " << expression() << '\n';
+    }
+    keep_window_open();
+    return 0;
 }
-catch (runtime_error& e) {
+catch (exception& e) {
     cerr << e.what() << '\n'; 
     keep_window_open("~~"); 
     return 1;
 }
 catch (...) {
-    cerr << "Oops: unknown exception!\n";
-    keep_window_open();
+    cerr << "exception \n";
+    keep_window_open("~~");
     return 2;
 }
