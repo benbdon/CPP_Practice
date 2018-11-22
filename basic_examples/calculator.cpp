@@ -164,24 +164,27 @@ double expression() { // deal with + and –
 }
 
 //---
-int main()
-try {
-    cout << "Welcome to our simple calculator.\nPlease enter expressions using floating-point numbers.\n";
+
+void calculate() {
     while (cin) {
         cout << prompt;
         Token t = ts.get();
         while (t.kind == print) t = ts.get(); // eat '='
-        if (t.kind == quit) {
-            keep_window_open();
-            return 0;
-        }
+        if (t.kind == quit) return;
         ts.putback(t);
         cout << result << expression() << '\n';
     }
+}
+
+//---
+int main()
+try {
+    cout << "Welcome to our simple calculator.\nPlease enter expressions using floating-point numbers.\n";
+    calculate();
     keep_window_open();
     return 0;
 }
-catch (exception& e) {
+catch (runtime_error& e) {
     cerr << e.what() << '\n'; 
     keep_window_open("~~"); 
     return 1;
