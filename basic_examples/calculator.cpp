@@ -39,13 +39,14 @@
 
     Input comes from cin through the Token_stream called ts.
 */
+
 #include "std_lib_facilities.h" 
 
 //---
 
 const char number = '8';    // t.kind==number means that t is a number Token
 const char quit = 'x'; // t.kind == quit means that t is a quit Token 
-const char print = '='; // t.kind == print means that t is a print Token
+const char print = ';'; // t.kind == print means that t is a print Token
 const string prompt = "> "; 
 const string result = "= "; // used to indicate that what follows is a result
 
@@ -211,14 +212,29 @@ double expression() { // deal with + and –
 
 //---
 
+void clean_up_mess() { // naive 
+    while (true) { // skip until we find a print  
+        Token t = ts.get(); 
+        if (t.kind == print)
+    return;
+    }
+}
+
+//---
 void calculate() {
-    while (cin) {
+    while (cin) 
+    try {
         cout << prompt;
         Token t = ts.get();
-        while (t.kind == print) t = ts.get(); // first discard all "prints"
-        if (t.kind == quit) return;
-        ts.putback(t);
-        cout << result << expression() << '\n';
+        while (t.kind == print)
+            t = ts.get(); // first discard all “prints” 
+            if (t.kind = = quit) return; 
+            ts.putback( t); 
+            cout << result << expression() << '\n';
+    }
+    catch (exception& e) { 
+        cerr << e.what() << '\n'; // write error message 
+        clean_up_mess();
     }
 }
 
