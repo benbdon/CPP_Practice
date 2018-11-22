@@ -69,6 +69,7 @@ public:
     Token_stream(); // make a Token_stream that reads from cin
     Token get();        // get a Token
     void putback(Token t); // put a Token back
+    void ignore(char c); // discard characters up to and including a c
 private:
     bool full {false};      // is there a Token in the buffer?
     Token buffer;       // here is where we keep a Token put back using putback()
@@ -124,6 +125,22 @@ Token Token_stream::get()
         } default:
             error("Bad token");
     }
+}
+
+//---
+
+void Token_stream::ignore(char c) { // c represents the kind of Token
+    // first look in buffer:
+    if (full && c == buffer.kind) {
+        full = false;
+        return;
+    }
+    full =false;
+
+    // now search input:
+    char ch = 0;
+    while (cin>>ch)
+        if(ch == c) return;
 }
 
 //---
@@ -213,14 +230,11 @@ double expression() { // deal with + and –
 //---
 
 void clean_up_mess() { // naive 
-    while (true) { // skip until we find a print  
-        Token t = ts.get(); 
-        if (t.kind == print)
-    return;
-    }
+    ts.ignore(print);
 }
 
 //---
+
 void calculate() {
     while (cin) 
     try {
@@ -228,7 +242,7 @@ void calculate() {
         Token t = ts.get();
         while (t.kind == print)
             t = ts.get(); // first discard all “prints” 
-            if (t.kind = = quit) return; 
+            if (t.kind == quit) return; 
             ts.putback( t); 
             cout << result << expression() << '\n';
     }
