@@ -12,8 +12,9 @@ struct Token {
 	char kind;
 	double value;
 	string name;
-	Token(char ch) :kind(ch), value(0) { }
-	Token(char ch, double val) :kind(ch), value(val) { }
+	Token(char ch)				:kind(ch), value(0)		{ }
+	Token(char ch, double val)	:kind(ch), value(val)	{ }
+	Token(char ch, string n) 	:kind(ch), name(n)		{ } 
 };
 
 class Token_stream {
@@ -40,6 +41,8 @@ Token Token_stream::get()
 	char ch;
 	cin >> ch;
 	switch (ch) {
+	case print:
+	case quit:
 	case '(':
 	case ')':
 	case '+':
@@ -47,7 +50,6 @@ Token Token_stream::get()
 	case '*':
 	case '/':
 	case '%':
-	case ';':
 	case '=':
 		return Token(ch);
 	case '.':
@@ -136,7 +138,8 @@ double primary()
 	case '(':
 	{	double d = expression();
 		t = ts.get();
-		if (t.kind != ')') error("'(' expected");
+		if (t.kind != ')') error("')' expected");
+		return d;
 	}
 	case '-':
 		return - primary();

@@ -160,7 +160,7 @@ void Token_stream::ignore(char c) { // c represents the kind of Token
         full = false;
         return;
     }
-    full =false;
+    full = false;
 
     // now search input:
     char ch = 0;
@@ -202,7 +202,7 @@ void set_value(string s, double d) {
             v.value = d;
             return;
         }
-    error("set: undefined variable", s);
+    error("set: undefined variable",s);
 }
 
 //---
@@ -352,7 +352,7 @@ void calculate() {
         Token t = ts.get();
         while (t.kind == print) t = ts.get(); // first discard all "prints" 
         if (t.kind == quit) return; 
-        ts.putback( t); 
+        ts.putback(t); 
         cout << result << statement() << '\n';
     }
     catch (exception& e) { 
