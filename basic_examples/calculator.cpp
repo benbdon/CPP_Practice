@@ -74,7 +74,7 @@ public:
     double value; // for numbers: a value
     string name; // 
     Token()                     :kind{0}                {} 
-    Token(char ch)              :kind(ch), value(0)     {} 
+    Token(char ch)              :kind{ch}               {} 
     Token(char ch, double val)  :kind{ch}, value{val}   {} 
     Token(char ch, string n)    :kind{ch}, name{n}      {} 
 };
@@ -366,6 +366,11 @@ void calculate() {
 int main()
 try {
     cout << "Welcome to our simple calculator.\nPlease enter expressions using floating-point numbers.\n";
+
+    // predefine names: 
+    define_name("pi", 3.1415926535);
+    define_name(" e", 2.7182818284);
+    
     calculate();
     keep_window_open();
     return 0;
