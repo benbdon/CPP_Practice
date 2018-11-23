@@ -141,10 +141,9 @@ Token Token_stream::get() {
             return Token{number,val};
         } default:
             if (isalpha(ch)) {
-                string s;
-                s += ch;
-                while (cin.get(ch) && (isalpha(ch) || isdigit(ch))) s += ch;
                 cin.putback(ch);
+                string s;
+                cin >> s;
                 if (s == declkey) return Token{let}; //declaration keyword
                 return Token{name,s};
             }
