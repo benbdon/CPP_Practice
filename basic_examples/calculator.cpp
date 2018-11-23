@@ -68,7 +68,7 @@ const string result = "= "; // used to indicate that what follows is a result
 
 //---
 
-class Token {     // a very simple user-defined type
+class Token {
 public:
     char kind;  //what kind of token
     double value; // for numbers: a value
@@ -121,8 +121,8 @@ Token Token_stream::get() {
     cin >> ch;    // note that >> skips whitespace (space, newline, tab, etc.)
     
     switch (ch) {
-        case quit:    
-        case print:    
+        case quit:
+        case print:
         case '(': 
         case ')': 
         case '+': 
@@ -132,7 +132,7 @@ Token Token_stream::get() {
         case '%':
         case '=':
             return Token(ch); // let each character represent itself
-        case '.': // a floating-point-literal can start with a dot
+        case '.': // a floating-point literal can start with a dot
         case '0': case '1': case '2': case '3': case '4':
         case '5': case '6': case '7': case '8': case '9': { // numeric literal    
             cin.putback(ch);         // put digit back into the input stream
@@ -145,9 +145,8 @@ Token Token_stream::get() {
                 s += ch;
                 while (cin.get(ch) && (isalpha(ch) || isdigit(ch))) s += ch;
                 cin.putback(ch);
-                cout << s << endl;
                 if (s == declkey) return Token{let}; //declaration keyword
-                return Token{name, s};
+                return Token{name,s};
             }
             error("Bad token");
     }
@@ -185,14 +184,14 @@ public:
 //---
 
 
-vector<Variable> var_table; // provides a table to store variables and values
+vector<Variable> var_table;
 
 //---
 
 double get_value(string s) {
     for (const Variable& v : var_table)
         if (v.name == s) return v.value;
-    error("get: undefined variable", s);
+    error("get: undefined variable ", s);
 }
 
 //---
@@ -240,8 +239,10 @@ double primary(){
             if (t.kind != ')') error("')' expected");
             return d;
         }
-    case number:            
+    case number:
         return t.value;  // return the number's value
+    case name:
+        return get_value(t.name); // return the variable's name
     case '-': 
         return - primary(); 
     case '+': 
@@ -254,7 +255,7 @@ double primary(){
 //---
 
 // deal with *, /, and %
-double term(){  
+double term() {  
     double left = primary();
     Token t = ts.get(); // get the next Token from the Token stream
    
@@ -310,16 +311,16 @@ double expression() { // deal with + and –
 
 double declaration() {
     // handle: name = expression 
-    // declare a variable called "name” with the initial value "expression”
+    // declare a variable called "name" with the initial value "expression"
     Token t = ts.get(); 
-    if (t.kind != name) error (" name expected in declaration"); 
+    if (t.kind != name) error ("name expected in declaration"); 
     string var_name = t.name; 
     
     Token t2 = ts.get(); 
-    if (t2. kind != '=') error(" = missing in declaration of ", var_name);
+    if (t2. kind != '=') error("= missing in declaration of ", var_name);
     
     double d = expression();
-    define_name(var_name, d); 
+    define_name(var_name,d); 
     return d;
 }
 
@@ -349,7 +350,7 @@ void calculate() {
     try {
         cout << prompt;
         Token t = ts.get();
-        while (t.kind == print) t = ts.get(); // first discard all “prints” 
+        while (t.kind == print) t = ts.get(); // first discard all "prints" 
         if (t.kind == quit) return; 
         ts.putback( t); 
         cout << result << statement() << '\n';
