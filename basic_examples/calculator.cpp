@@ -15,7 +15,7 @@
     The grammar for input is: 
 
     Calculation: 
-        Expression
+        Statement
         Print 
         Quit
         Calculation Statment
