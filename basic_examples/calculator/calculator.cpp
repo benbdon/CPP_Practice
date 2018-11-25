@@ -225,16 +225,16 @@ double define_name(string var, double val) {
 
 //---
 
-double expression(); // declaration so that primary() can call expression()
+double expression(Token_stream& ts); // declaration so that primary() can call expression()
 
 //---
 
 // deal with numbers and parentheses
-double primary(){ 
+double primary(Token_stream& ts){ 
     Token t = ts.get();
     switch (t.kind) {
     case '(':    // handle '(' expression ')'
-        {   double d = expression();
+        {   double d = expression(ts);
             t = ts.get();
             if (t.kind != ')') error("')' expected");
             return d;
@@ -244,9 +244,9 @@ double primary(){
     case name:
         return get_value(t.name); // return the variable's name
     case '-': 
-        return - primary(); 
+        return - primary(ts); 
     case '+': 
-        return primary(); 
+        return primary(ts); 
     default:
         error("primary expected");
     }
@@ -255,24 +255,24 @@ double primary(){
 //---
 
 // deal with *, /, and %
-double term() {  
-    double left = primary();
+double term(Token_stream& ts) {  
+    double left = primary(ts);
     Token t = ts.get(); // get the next Token from the Token stream
    
     while (true) {
         switch (t.kind) {
         case '*':
-            left *= primary();
+            left *= primary(ts);
             t = ts.get();
             break;
         case '/': {
-            double d = primary();
+            double d = primary(ts);
             if (d == 0) error("divide by zero");
             left /= d;
             t = ts.get();
             break;
         } case '%': {
-            double d = primary();
+            double d = primary(ts);
             if (d == 0) error("%: divide by zero"); 
             left = fmod(left, d);
             t = ts.get(); 
@@ -286,18 +286,18 @@ double term() {
 
 //---
 
-double expression() { // deal with + and – 
-    double left = term(); // read and evaluate an Term
+double expression(Token_stream& ts) { // deal with + and – 
+    double left = term(ts); // read and evaluate an Term
     Token t = ts.get(); // get the next Token from the Token stream
 
     while(true) { 
         switch(t.kind) {
         case '+':
-            left += term(); // evaluate Term and add
+            left += term(ts); // evaluate Term and add
             t = ts.get();
             break;
         case '-':
-            left -= term(); // evaluate Term and subtract
+            left -= term(ts); // evaluate Term and subtract
             t = ts.get();
             break;
         default:
@@ -309,7 +309,7 @@ double expression() { // deal with + and –
 
 //---
 
-double declaration() {
+double declaration(Token_stream& ts) {
     // handle: name = expression 
     // declare a variable called "name" with the initial value "expression"
     Token t = ts.get(); 
@@ -319,21 +319,21 @@ double declaration() {
     Token t2 = ts.get(); 
     if (t2. kind != '=') error("= missing in declaration of ", var_name);
     
-    double d = expression();
+    double d = expression(ts);
     define_name(var_name,d); 
     return d;
 }
 
 //---
 
-double statement() {
+double statement(Token_stream& ts) {
     Token t = ts.get(); 
     switch (t.kind) {
         case let:
-            return declaration(); 
+            return declaration(ts); 
         default: 
             ts.putback(t);
-            return expression(); 
+            return expression(ts); 
     }
 }
 
@@ -345,7 +345,7 @@ void clean_up_mess() { // naive
 
 //---
 
-void calculate() {
+void calculate(Token_stream& ts) {
     while (cin) 
     try {
         cout << prompt;
@@ -353,7 +353,7 @@ void calculate() {
         while (t.kind == print) t = ts.get(); // first discard all "prints" 
         if (t.kind == quit) return; 
         ts.putback(t); 
-        cout << result << statement() << '\n';
+        cout << result << statement(ts) << '\n';
     }
     catch (exception& e) { 
         cerr << e.what() << '\n'; // write error message 
@@ -371,7 +371,7 @@ try {
     define_name("pi", 3.1415926535);
     define_name("e", 2.7182818284);
 
-    calculate();
+    calculate(ts);
     keep_window_open();
     return 0;
 }
