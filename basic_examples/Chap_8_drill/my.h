@@ -1,3 +1,3 @@
-extern int foo; 
+extern int foo; // points to a global variable?
 void print_foo(); 
-void print( int);
+void print(int);
