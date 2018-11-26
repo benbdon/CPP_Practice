@@ -57,11 +57,11 @@
 
 //---
 
-const char number = '8';    // t.kind==number means that t is a number Token
-const char quit = 'q'; // t.kind == quit means that t is a quit Token 
-const char print = ';'; // t.kind == print means that t is a print Token
-const char name = 'a'; // name token 
-const char let = 'L'; // declaration token 
+constexpr char number = '8';    // t.kind==number means that t is a number Token
+constexpr char quit = 'q'; // t.kind == quit means that t is a quit Token 
+constexpr char print = ';'; // t.kind == print means that t is a print Token
+constexpr char name = 'a'; // name token 
+constexpr char let = 'L'; // declaration token 
 const string declkey = "let"; // declaration keyword
 const string prompt = "> "; 
 const string result = "= "; // used to indicate that what follows is a result
