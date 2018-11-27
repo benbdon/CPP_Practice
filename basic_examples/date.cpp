@@ -56,10 +56,10 @@ bool Date::is_valid() { // return true if date is valid
 void main() 
 try {
 Date dx1 {Year{1998}, 4, 3}; // error: 2nd argument not a Month 
-Date dx2 {Year{ 1998}, 4, Month:: mar}; // error: 2nd argument not a Month 
-Date dx2 {4, Month:: mar, Year{ 1998}}; // error: 1st argument not a Year 
-Date dx2 {Month:: mar, 4, Year{ 1998}}; // error: 2nd argument not a Month 
-Date dx3 {Year{ 1998}, Month:: mar, 30}; // OK
+Date dx2 {Year{1998}, 4, Month::mar}; // error: 2nd argument not a Month 
+Date dx2 {4, Month::mar, Year{1998}}; // error: 1st argument not a Year 
+Date dx2 {Month::mar, 4, Year{1998}}; // error: 2nd argument not a Month 
+Date dx3 {Year{1998}, Month::mar, 30}; // OK
 
 }
 catch (Date::Invalid) {
