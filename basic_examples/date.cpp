@@ -9,13 +9,8 @@ class Year {
     static constexpr int max = 2200;
 public:
     class Invalid { };
-    Year(int x)
-        : y{x} {
-            if (x<min || max<=x) throw Invalid{};
-        }
-        int year() {
-            return y;
-        }
+    Year(int x) : y{x} { if (x<min || max<=x) throw Invalid{}; }
+    int year() { return y; }
 private:
     int y;
 };
@@ -24,7 +19,7 @@ class Date {
 public:
     class Invalid { };
     Date(Year y, Month m, int d); // check for valid date and initialize
-    void add_day( int n); // increase the Date by n days 
+    void add_day(int n); // increase the Date by n days 
     Month month() { return m; } 
     int day() { return d; } 
     Year year() { return y; } 
@@ -43,10 +38,6 @@ Date::Date(Year yy, Month mm, int dd) // constructor
 void Date::add_day(int n) {
     // . . . 
 } 
-Month Date::month() { 
-    return m;
-}
-
 bool Date::is_valid() { // return true if date is valid
     if (int(m)<1 || 12<int(m)) return false; 
     // . . . 
