@@ -8,21 +8,26 @@ class Date {
 public:
     class Invalid { };
     Date(int y, Month m, int d); // check for valid date and initialize
+    Date(int y);
     void add_day(int n); // increase the Date by n days 
     Month month() { return m; } 
     int day() { return d; } 
     int year() { return y; } 
 private:
-    int y;
-    Month m;
-    int d;
+    int y {2001};
+    Month m {Month::jan};
+    int d {1};
     bool is_valid();
 };
-
 Date::Date(int yy, Month mm, int dd) // constructor 
     :y{yy}, m{mm}, d{dd} // (member) initializer list
+{ 
+    if(!is_valid()) throw Invalid{}; // check for validity
+}
+Date::Date(int yy)
+    :y{yy}
 {
-        if(!is_valid()) throw Invalid{}; // check for validity
+    if(!is_valid()) throw Invalid{};
 }
 void Date::add_day(int n) {
     // . . . 
