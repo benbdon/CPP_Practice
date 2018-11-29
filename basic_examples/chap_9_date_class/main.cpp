@@ -5,9 +5,13 @@ int main()
 try { 
     Chrono::Date today {1978, Chrono::Month::jun, 25};
     Chrono::Date tomorrow = today;
+    Chrono::Date month_later = today;
     tomorrow.add_day(1);
+    month_later.add_month(14);
     cout << "Today: " << today << endl;
     cout << "Tomorrow: " << tomorrow << endl;
+    cout << "Month later: " << month_later << endl;
+    
     keep_window_open();
     return 0;
 }

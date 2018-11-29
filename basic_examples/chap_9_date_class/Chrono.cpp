@@ -31,8 +31,10 @@ void Date::add_day(int n) {
 } 
 
 void Date::add_month(int n) {
-    // . . . 
-} 
+    if ((int(m) + n) > 12)
+        y += (int(m) + n) / 12;
+    m = Month((int(m) + n) % 12);
+}
     
 void Date::add_year(int n) {
     if (m==Month::feb && d==29 && !leapyear(y+n)) { // beware of leap years! 
