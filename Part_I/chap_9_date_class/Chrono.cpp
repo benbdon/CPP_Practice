@@ -60,7 +60,7 @@ bool is_date(int y,Month m,int d) {
         case Month::apr: case Month::jun: case Month::sep: case Month::nov: 
             days_in_month = 30; // the rest have 30 days 
             break; 
-        } 
+    } 
         
     if (days_in_month < d) return false; 
 
