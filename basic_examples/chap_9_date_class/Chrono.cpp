@@ -11,7 +11,7 @@ Date::Date( int yy, Month mm, int dd)
 } 
 
 const Date& default_date() {
-    static Date dd {2001, Month:: jan, 1}; // start of 21st century 
+    static Date dd {2001, Month::jan, 1}; // start of 21st century 
     return dd; 
 } 
 
@@ -23,7 +23,11 @@ Date::Date()
 } 
 
 void Date::add_day(int n) {
-    // . . . 
+	while (days_in_month(y,m)<n) {	// move one month at a time
+		add_month(1);
+		n -= days_in_month(y,m);
+	}
+	d += n;
 } 
 
 void Date::add_month(int n) {
@@ -62,8 +66,22 @@ bool is_date(int y,Month m,int d) {
 }
 
 bool leapyear(int y) { 
-    // see exercise 10 
+    if (y%4) return false;
+	if (y%100==0 && y%400) return false;
+	return true;
 }
+
+int days_in_month(int y, Month m) {
+    switch (m) {
+	    case Month::feb:                       
+		    return (leapyear(y))?29:28;
+	    case Month::apr: case Month::jun: case Month::sep: case Month::nov:
+		    return 30;
+	    default:
+		    return 31;
+    }
+}
+
 
 bool operator==(const Date& a,const Date& b) { 
     return a.year()==b.year() 

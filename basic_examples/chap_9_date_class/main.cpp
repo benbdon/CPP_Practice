@@ -3,10 +3,11 @@
 
 int main()
 try { 
-    Chrono::Date holiday{1978, Chrono::Month::jul, 4}; // initialization
-    Chrono::Date d2{2010, Chrono::Month::oct, 10};
-    Chrono::Day d=day_of_week(d2);
-    cout << "holiday is " << holiday << " d2 is " << d2 << endl;
+    Chrono::Date today {1978, Chrono::Month::jun, 25};
+    Chrono::Date tomorrow = today;
+    tomorrow.add_day(1);
+    cout << "Today: " << today << endl;
+    cout << "Tomorrow: " << tomorrow << endl;
     keep_window_open();
     return 0;
 }
