@@ -26,7 +26,9 @@
                 "miDebuggerPath": "c:/MinGW/bin/gdb.exe",
             },
             "linux": {
-                
+                "program": "${workspaceFolder}/Part_II/main",
+                "MIMode":"gdb",
+                "miDebuggerPath": "/usr/bin/gdb"
             }
         }
     ]
