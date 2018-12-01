@@ -10,7 +10,7 @@
                 "command": "g++ *.cpp -g -o main.exe",
             },
             "linux": {
-                "command": "g++ *.cpp -g -std=c++11 main"
+                "command": "g++ *.cpp -g -std=c++11 -o main"
             },
             "group": "build",
             "presentation": {
