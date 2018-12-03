@@ -7,10 +7,10 @@
             "label": "CPP compile",
             "type": "shell",
             "windows": {
-                "command": "g++ -g ${workspaceFolder}\\alpha_code\\test.cpp -o ${workspaceFolder}\\alpha_code\\main.exe",
+                "command": "g++ -g ${workspaceFolder}/Part_II/structured_data.cpp -o ${workspaceFolder}/Part_II/main.exe",
             },
             "linux": {
-                "command": "g++ *.cpp -g -std=c++11 -o main"
+                "command": "g++ -g -std=c++11 ${workspaceFolder}/Part_II/structured_data.cpp -o ${workspaceFolder}/Part_II/main"
             },
             "group": "build",
             "presentation": {
