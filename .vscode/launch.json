@@ -21,15 +21,10 @@
                 }
             ],
             "windows": {
-                "program": "${workspaceFolder}/alpha_code/main.exe",
+                "program": "${workspaceFolder}/Part_II/main.exe",
                 "MIMode": "gdb",
                 "miDebuggerPath": "c:/MinGW/bin/gdb.exe",
             },
-            "linux": {
-                "program": "${workspaceFolder}/alpha_code/main",
-                "MIMode":"gdb",
-                "miDebuggerPath": "/usr/bin/gdb"
-            }
         }
     ]
 }
