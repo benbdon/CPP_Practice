@@ -1,9 +1,6 @@
-#include <cmath>
-#include <cstdio>
 #include <vector>
 #include <iostream>
-#include <algorithm>
-#include <cassert>
+
 using namespace std;
 
 // Write your Student class here
@@ -12,12 +9,14 @@ public:
     void input();
     int calculateTotalScore();
 private:
-    vector<int> scores{5};
+    vector<int> scores {};
 };
 
 void Student::input() {
     for(int i = 0; i < 5; ++i) {
-        cin>>scores[i];
+        int val;
+        cin>>val;
+        scores.push_back(val);
     }
 }
 int Student::calculateTotalScore()
