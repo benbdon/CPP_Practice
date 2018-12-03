@@ -178,7 +178,6 @@ try {
     // read an arbitrary number of years: 
     vector<Year> ys; 
     while(true) {
-        cout<<"OMG WE DID THIS MUCH"<<endl;
         Year y; // get a freshly initialized Year each time around 
         if(!(ifs>>y)) break; 
         ys.push_back(y); 
