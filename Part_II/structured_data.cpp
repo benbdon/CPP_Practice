@@ -10,7 +10,8 @@ vector<string> month_input_tbl = {
     "aug", "sep", "oct", "nov", "dec" 
 }; 
 
-vector<string> month_print_tbl = { "January", "February", "March", "April", "May", "June", "July", 
+vector<string> month_print_tbl = { 
+    "January", "February", "March", "April", "May", "June", "July", 
     "August", "September", "October", "November", "December" }; 
 
 int month_to_int(string s) {
