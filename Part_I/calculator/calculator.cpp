@@ -83,7 +83,7 @@ public:
 
 class Token_stream {
 public:
-    Token_stream(); // make a Token_stream that reads from cin
+    Token_stream(); // default constructor
     Token get();        // get a Token
     void putback(Token t); // put a Token back
     void ignore(char c); // discard characters up to and including a c
@@ -96,7 +96,7 @@ private:
 
 // The constructor just sets full to indicate that the buffer is empty:
 Token_stream::Token_stream()
-:full(false), buffer(0)    // no Token in buffer
+    :full(false), buffer(0)    // no Token in buffer
 {
 }
 
