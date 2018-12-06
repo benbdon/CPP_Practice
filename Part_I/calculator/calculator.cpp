@@ -83,7 +83,6 @@ public:
 
 class Token_stream {
 public:
-    Token_stream(); // default constructor
     Token get();        // get a Token
     void putback(Token t); // put a Token back
     void ignore(char c); // discard characters up to and including a c
@@ -91,14 +90,6 @@ private:
     bool full {false};      // is there a Token in the buffer?
     Token buffer;       // here is where we keep a Token put back using putback()
 };
-
-//---
-
-// The constructor just sets full to indicate that the buffer is empty:
-Token_stream::Token_stream()
-    :full(false), buffer(0)    // no Token in buffer
-{
-}
 
 //---
 
